@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'blog.app.BlogConfig',
 ]
 
 MIDDLEWARE = [
@@ -105,7 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'UTC-9'  #'Asia/Seoul'
 
 USE_I18N = True
 
