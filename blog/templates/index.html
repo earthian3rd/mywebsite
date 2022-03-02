@@ -54,7 +54,7 @@
                 </div>
                 <nav id="header-main-menu">
                     <ul class="main-menu sm sm-clean">
-                        <li><a href="index.html" class="current">Home</a></li>
+                        <li><a href="{% url "index" %}" class="current">Home</a></li>
                         <li><a href="about.html">About</a></li>
                         <li><a href="scroll.html">Scroll</a></li>
                         <li><a href="contact.html">Contact</a></li>
@@ -68,7 +68,7 @@
             </div>
             <div class="menu-right-part">
                 <div class="logo-holder">
-                    <a href="index.html">
+                    <a href="{% url "index" %}">
                         <img src="{% static 'images/logo.png' %}" alt="Suppablog WP">
                     </a>
                 </div>
@@ -96,132 +96,71 @@
         <div id="content" class="site-content">
             <div id="blog-wrapper">
                 <div class="blog-holder center-relative">
-
-
-                    <article id="post-1" class="blog-item-holder featured-post">
-                        <div class="entry-content relative">
-                            <div class="content-1170 center-relative">
-                                <div class="cat-links">
-                                    <ul>
-                                        <li>
-                                            <a href="#">Crafting</a>
-                                        </li>
-                                    </ul>
+                    {% for post in post_latest %}
+                        {% if forloop.counter is 1 %}
+                            <article id="post-{{ forloop.counter }}" class="blog-item-holder featured-post">
+                                <div class="entry-content relative">
+                                    <div class="content-1170 center-relative">
+                                        <div class="cat-links">
+                                            <ul>
+                                                <li>
+                                                    <a href="#">
+                                                        {% for c in post.category.all %}
+                                                            {{ c }}
+                                                            {% if not forloof.last %}
+                                                                ,
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="entry-date published">{{ post.createDate }}</div>
+                                        <h2 class="entry-title">
+                                            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                                        </h2>
+                                        <div class="excerpt">
+                                            {% if post.is_content_more300 %}
+                                                {{ post.get_content_under300 }}
+                                            {% else %}
+                                                {{ post.content }}
+                                            {% endif %}
+                                            <a class="read-more" href="{{ post.get_absolute_url }}"></a>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
                                 </div>
-                                <div class="entry-date published">February 12, 2016</div>
-                                <h2 class="entry-title">
-                                    <a href="{% url 'single' %}">Whatever is begun in anger ends in shame</a>
-                                </h2>
-                                <div class="excerpt">
-                                    Now when I had mastered the language of this water and had come to know every trifling feature that bordered the great river as familiarly as I knew the letters of the alphabet, I had made a valuable acquisition. I still keep in mind a certain wonderful sunset which I witnessed when and steamboating<a class="read-more" href="{% url 'single' %}"></a>
+                            </article>
+                        {% else %}
+                            <article id="post-{{ forloop.counter }}" class="blog-item-holder">
+                                <div class="entry-content relative">
+                                    <div class="content-1170 center-relative">
+                                        <h2 class="entry-title">
+                                            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                                        </h2>
+                                        <div class="cat-links">
+                                            <ul>
+                                                <li>
+                                                    <a href="#">
+                                                        {% for c in post.category.all %}
+                                                            {{ c }} 
+                                                            {% if not forloof.last %} 
+                                                                ,
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        
+                                        <div class="entry-date published">{{ post.createDate }}</div>
+                                        <div class="clear"></div>
+                                    </div>
                                 </div>
-                                <div class="clear"></div>
-                            </div>
-                        </div>
-                    </article>
+                            </article>
+                        {% endif %}
+                    {% endfor %}
 
-
-                    <article id="post-2" class="blog-item-holder">
-                        <div class="entry-content relative">
-                            <div class="content-1170 center-relative">
-                                <h2 class="entry-title">
-                                    <a href="{% url 'single' %}">I like to reinvent myself</a>
-                                </h2>
-                                <div class="cat-links">
-                                    <ul>
-                                        <li>
-                                            <a href="#">Science</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="entry-date published">February 12, 2016</div>
-                                <div class="clear"></div>
-                            </div>
-                        </div>
-                    </article>
-
-
-                    <article id="post-3" class="blog-item-holder">
-                        <div class="entry-content relative">
-                            <div class="content-1170 center-relative">
-                                <h2 class="entry-title">
-                                    <a href="{% url 'single' %}">Everything is design</a>
-                                </h2>
-                                <div class="cat-links">
-                                    <ul>
-                                        <li>
-                                            <a href="#">Art</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="entry-date published">February 12, 2016</div>
-                                <div class="clear"></div>
-                            </div>
-                        </div>
-                    </article>
-
-
-
-                    <article id="post-4" class="blog-item-holder">
-                        <div class="entry-content relative">
-                            <div class="content-1170 center-relative">
-                                <h2 class="entry-title">
-                                    <a href="{% url 'single' %}">It’s all about experience</a>
-                                </h2>
-                                <div class="cat-links">
-                                    <ul>
-                                        <li>
-                                            <a href="#">Life</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="entry-date published">February 12, 2016</div>
-                                <div class="clear"></div>
-                            </div>
-                        </div>
-                    </article>
-
-
-
-                    <article id="post-5" class="blog-item-holder">
-                        <div class="entry-content relative">
-                            <div class="content-1170 center-relative">
-                                <h2 class="entry-title">
-                                    <a href="{% url 'single' %}">This is not my code</a>
-                                </h2>
-                                <div class="cat-links">
-                                    <ul>
-                                        <li>
-                                            <a href="#">Coding</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="entry-date published">February 12, 2016</div>
-                                <div class="clear"></div>
-                            </div>
-                        </div>
-                    </article>
-
-
-
-                    <article id="post-6" class="blog-item-holder">
-                        <div class="entry-content relative">
-                            <div class="content-1170 center-relative">
-                                <h2 class="entry-title">
-                                    <a href="{% url 'single' %}">Support human activity</a>
-                                </h2>
-                                <div class="cat-links">
-                                    <ul>
-                                        <li>
-                                            <a href="#">Advocacy</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="entry-date published">February 12, 2016</div>
-                                <div class="clear"></div>
-                            </div>
-                        </div>
-                    </article>
 
                 </div>
                 <div class="clear"></div>

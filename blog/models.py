@@ -1,3 +1,4 @@
+from pickletools import read_uint1
 from unicodedata import category, name
 from unittest.util import _MAX_LENGTH
 from django.db import models
@@ -19,7 +20,7 @@ class Category(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=200)
     title_image = models.ImageField(blank=True) #이미지 빈값일 수 있으니 트루설정#settings에 media추가필요#urls에서 static 추가필요
-    content = models.TextField(default = '')
+    content = models.TextField()
     createDate = models.DateTimeField(auto_now_add=True) #자동으로 지금 시간 적용
     updateDate = models.DateTimeField(auto_now_add=True)
     #다양한 카테고리 선택(ex: 정보, 유머) 다 대 다 관계
@@ -28,7 +29,12 @@ class Post(models.Model):
     def __str__(self):
         return self.title
     
-    #글의 번호가 1번 -> single/1/ 가 주소가 됨.
+    #글의 번호가 1번 -> post/1/ 가 주소가 됨.
     def get_absolute_url(self):
-        return reverse("single", args=[str(self.id)])
+        return reverse("post", args=[str(self.id)])
     
+    def is_content_more300(self):
+        return len(self.content) > 300
+    
+    def get_content_under300(self):
+        return self.content[:300]
